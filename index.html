@@ -6,9 +6,12 @@
     <title>Sistem Peminjaman Buku Perpustakaan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Menambahkan animate.css untuk animasi -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         :root {
-            --primary-color: #3498db;
+            --primary-color: #4361ee;
+            --primary-light: #e6e9ff;
             --secondary-color: #2c3e50;
             --accent-color: #e74c3c;
             --light-color: #f8f9fa;
@@ -16,21 +19,27 @@
             --success-color: #2ecc71;
             --warning-color: #f39c12;
             --danger-color: #e74c3c;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f5f7fa;
-            color: #333;
+            color: var(--dark-color);
+            line-height: 1.6;
         }
         
+        /* Header Styles */
         .app-container {
             max-width: 1200px;
             margin: 20px auto;
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
             overflow: hidden;
+            transition: var(--transition);
         }
         
         .app-header {
@@ -38,6 +47,19 @@
             color: white;
             padding: 1.5rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .app-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
         }
         
         .app-title {
@@ -47,17 +69,22 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            position: relative;
         }
         
         .app-subtitle {
             opacity: 0.9;
             font-size: 0.9rem;
+            position: relative;
         }
         
+        /* Navigation Tabs */
         .nav-tabs {
             background-color: var(--secondary-color);
             border-bottom: none;
             padding: 0;
+            position: relative;
+            z-index: 1;
         }
         
         .nav-tabs .nav-link {
@@ -70,12 +97,30 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-tabs .nav-link::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background-color: white;
+            transform: translateX(-50%);
+            transition: var(--transition);
         }
         
         .nav-tabs .nav-link:hover {
             color: white;
             background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-tabs .nav-link:hover::before {
+            width: 100%;
         }
         
         .nav-tabs .nav-link.active {
@@ -84,16 +129,24 @@
             border: none;
         }
         
-        .tab-content {
-            padding: 1.5rem;
+        .nav-tabs .nav-link.active::before {
+            width: 100%;
+            background-color: white;
         }
         
+        /* Card Styles */
         .card {
             border: none;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             margin-bottom: 1.5rem;
             overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         
         .card-header {
@@ -110,50 +163,68 @@
             border-left: 4px solid var(--primary-color);
         }
         
-        .info-list {
-            padding: 0;
-            list-style: none;
-        }
-        
-        .info-list li {
-            padding: 0.5rem 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .info-list li i {
-            color: var(--primary-color);
-            width: 20px;
-            text-align: center;
-        }
-        
+        /* Form Styles */
         .form-label {
             font-weight: 500;
             margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .form-control, .form-select {
             padding: 0.6rem 0.75rem;
-            border-radius: 6px;
+            border-radius: var(--border-radius);
             border: 1px solid #ddd;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
         
         .form-control:focus, .form-select:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
         }
         
+        /* Button Styles */
         .btn {
             padding: 0.6rem 1rem;
-            border-radius: 6px;
+            border-radius: var(--border-radius);
             font-weight: 500;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: all 0.3s;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%, -50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn:focus:not(:active)::after {
+            animation: ripple 0.6s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
         }
         
         .btn-primary {
@@ -164,6 +235,7 @@
         .btn-primary:hover {
             background-color: #2980b9;
             border-color: #2980b9;
+            transform: translateY(-2px);
         }
         
         .btn-outline-primary {
@@ -176,6 +248,7 @@
             color: white;
         }
         
+        /* Table Styles */
         .table {
             font-size: 0.9rem;
         }
@@ -184,13 +257,21 @@
             background-color: var(--light-color);
             font-weight: 600;
             color: var(--dark-color);
+            position: sticky;
+            top: 0;
         }
         
+        .table-hover tbody tr:hover {
+            background-color: var(--primary-light);
+        }
+        
+        /* Status Badges */
         .status-badge {
             padding: 0.25rem 0.5rem;
             border-radius: 50px;
             font-size: 0.75rem;
             font-weight: 500;
+            display: inline-block;
         }
         
         .badge-success {
@@ -208,10 +289,7 @@
             color: var(--danger-color);
         }
         
-        .text-danger {
-            color: var(--danger-color) !important;
-        }
-        
+        /* Search Box */
         .search-box {
             position: relative;
             margin-bottom: 1rem;
@@ -227,15 +305,22 @@
         
         .search-box input {
             padding-left: 35px;
+            border-radius: 50px !important;
         }
         
         /* Invoice Styles */
         .invoice {
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
             overflow: hidden;
             margin-top: 1.5rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .invoice-header {
@@ -244,28 +329,15 @@
             align-items: center;
             padding: 1.5rem;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .invoice-logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .invoice-logo i {
-            font-size: 2rem;
-            color: var(--primary-color);
+            background-color: var(--primary-color);
+            color: white;
         }
         
         .invoice-title {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--secondary-color);
+            color: white;
             margin-bottom: 0.5rem;
-        }
-        
-        .invoice-meta {
-            text-align: right;
         }
         
         .invoice-meta p {
@@ -273,109 +345,46 @@
             font-size: 0.9rem;
         }
         
-        .invoice-body {
-            padding: 1.5rem;
-        }
-        
-        .invoice-details {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .invoice-section {
-            flex: 1;
-        }
-        
-        .invoice-section h5 {
-            font-size: 1rem;
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px dashed #ddd;
-        }
-        
-        .invoice-row {
-            display: flex;
-            margin-bottom: 0.5rem;
-        }
-        
-        .invoice-label {
-            min-width: 120px;
-            font-weight: 500;
-            color: var(--dark-color);
-        }
-        
-        .invoice-table {
-            width: 100%;
-            margin-bottom: 1.5rem;
-        }
-        
-        .invoice-table th {
-            background-color: var(--light-color);
-            padding: 0.75rem;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.5px;
-        }
-        
-        .invoice-table td {
-            padding: 0.75rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .invoice-total {
-            text-align: right;
-            font-size: 1.1rem;
-            font-weight: 600;
-            padding: 1rem;
-            border-top: 2px solid var(--secondary-color);
-        }
-        
-        .invoice-footer {
-            padding: 1rem 1.5rem;
-            background-color: var(--light-color);
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
         /* Modal Styles */
         .modal-content {
             border: none;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             overflow: hidden;
+            box-shadow: var(--box-shadow);
         }
         
-        .modal-header {
-            background-color: var(--light-color);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .modal-title {
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        /* Toast Notification */
+        .toast {
+            border-radius: var(--border-radius);
+            border: none;
+            box-shadow: var(--box-shadow);
         }
         
         /* Responsive Adjustments */
         @media (max-width: 768px) {
-            .invoice-details {
-                flex-direction: column;
-                gap: 1.5rem;
+            .app-title {
+                font-size: 1.5rem;
             }
             
             .nav-tabs .nav-link {
                 padding: 0.75rem;
                 font-size: 0.85rem;
             }
+            
+            .invoice-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .invoice-meta {
+                text-align: center;
+            }
         }
         
         @media (max-width: 576px) {
             .app-title {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
             }
             
             .nav-tabs .nav-link {
@@ -386,24 +395,94 @@
             .tab-content {
                 padding: 1rem;
             }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
         }
         
         /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .animate-bounce {
+            animation: bounce 2s infinite;
         }
         
-        .fade-in {
-            animation: fadeIn 0.3s ease-out;
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Autocomplete */
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            background-color: white;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .autocomplete-items div:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .autocomplete-active {
+            background-color: var(--primary-color) !important;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
+    <div class="app-container animate__animated animate__fadeIn">
         <header class="app-header">
             <h1 class="app-title">
-                <i class="fas fa-book-open"></i>
+                <i class="fas fa-book-open animate__animated animate__bounceIn"></i>
                 Sistem Peminjaman Buku Perpustakaan
             </h1>
             <p class="app-subtitle">Manajemen peminjaman buku dengan perhitungan denda otomatis</p>
@@ -435,87 +514,108 @@
         <div class="tab-content" id="mainTabsContent">
             <!-- Tab Peminjaman -->
             <div class="tab-pane fade show active" id="peminjaman" role="tabpanel">
-                <div class="card info-card">
+                <div class="card info-card animate__animated animate__fadeIn">
                     <div class="card-header">
                         <i class="fas fa-info-circle"></i> Ketentuan Peminjaman
                     </div>
-                    <ul class="info-list">
-                        <li>
-                            <i class="fas fa-check-circle"></i>
-                            Peminjaman buku dilakukan per minggu
-                        </li>
-                        <li>
-                            <i class="fas fa-exclamation-triangle text-warning"></i>
-                            <strong>Denda keterlambatan: Rp5.000 per hari</strong> (termasuk weekend)
-                        </li>
-                        <li>
-                            <i class="fas fa-calculator"></i>
-                            Perhitungan denda dimulai dari hari setelah jatuh tempo
-                        </li>
-                        <li>
-                            <i class="fas fa-file-invoice"></i>
-                            Invoice otomatis dibuat untuk pembayaran denda
-                        </li>
-                    </ul>
+                    <div class="card-body">
+                        <div class="alert alert-primary d-flex align-items-center" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <div>
+                                <strong>Perhatian!</strong> Pastikan data yang dimasukkan sudah benar sebelum menyimpan.
+                            </div>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                Peminjaman buku dilakukan per minggu
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                <strong>Denda keterlambatan: Rp5.000 per hari</strong> (termasuk weekend)
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-calculator text-primary me-2"></i>
+                                Perhitungan denda dimulai dari hari setelah jatuh tempo
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <i class="fas fa-file-invoice text-info me-2"></i>
+                                Invoice otomatis dibuat untuk pembayaran denda
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 
-                <div class="card">
+                <div class="card animate__animated animate__fadeInUp">
                     <div class="card-header">
                         <i class="fas fa-edit"></i> Form Peminjaman Buku
                     </div>
                     <div class="card-body">
                         <form id="formPeminjaman">
                             <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-3">
                                     <label for="namaPeminjam" class="form-label">
-                                        <i class="fas fa-user"></i> Nama Peminjam
+                                        <i class="fas fa-user"></i> Nama Peminjam <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" id="namaPeminjam" required placeholder="Masukkan nama lengkap">
+                                    <div class="invalid-feedback">Harap isi nama peminjam</div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-3">
                                     <label for="noHp" class="form-label">
-                                        <i class="fas fa-phone"></i> No. HP
+                                        <i class="fas fa-phone"></i> No. HP <span class="text-danger">*</span>
                                     </label>
-                                    <input type="tel" class="form-control" id="noHp" required placeholder="081234567890">
+                                    <input type="tel" class="form-control" id="noHp" required placeholder="081234567890" pattern="[0-9]{10,13}">
+                                    <div class="invalid-feedback">Harap isi nomor HP yang valid (10-13 digit)</div>
                                 </div>
                             </div>
                             
                             <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-3">
                                     <label for="email" class="form-label">
                                         <i class="fas fa-envelope"></i> Email (opsional)
                                     </label>
                                     <input type="email" class="form-control" id="email" placeholder="email@contoh.com">
+                                    <div class="invalid-feedback">Format email tidak valid</div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-3">
                                     <label for="judulBuku" class="form-label">
-                                        <i class="fas fa-book"></i> Judul Buku
+                                        <i class="fas fa-book"></i> Judul Buku <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" id="judulBuku" required placeholder="Judul buku yang dipinjam">
+                                    <div class="invalid-feedback">Harap isi judul buku</div>
                                 </div>
                             </div>
                             
                             <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-3">
                                     <label for="kodeBuku" class="form-label">
-                                        <i class="fas fa-barcode"></i> Kode Buku
+                                        <i class="fas fa-barcode"></i> Kode Buku <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" id="kodeBuku" required placeholder="Kode unik buku">
+                                    <div class="invalid-feedback">Harap isi kode buku</div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-3">
                                     <label for="tanggalPinjam" class="form-label">
-                                        <i class="fas fa-calendar-alt"></i> Tanggal Pinjam
+                                        <i class="fas fa-calendar-alt"></i> Tanggal Pinjam <span class="text-danger">*</span>
                                     </label>
                                     <input type="date" class="form-control" id="tanggalPinjam" required>
+                                    <div class="invalid-feedback">Harap pilih tanggal pinjam</div>
                                 </div>
                             </div>
                             
                             <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-3">
                                     <label for="lamaPinjam" class="form-label">
-                                        <i class="fas fa-clock"></i> Lama Pinjam (minggu)
+                                        <i class="fas fa-clock"></i> Lama Pinjam (minggu) <span class="text-danger">*</span>
                                     </label>
                                     <input type="number" class="form-control" id="lamaPinjam" min="1" value="1" required>
+                                    <div class="invalid-feedback">Harap isi lama pinjam (minimal 1 minggu)</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">
+                                        <i class="fas fa-calendar-check"></i> Jatuh Tempo
+                                    </label>
+                                    <input type="text" class="form-control" id="jatuhTempo" readonly placeholder="Akan dihitung otomatis">
                                 </div>
                             </div>
                             
@@ -534,9 +634,16 @@
             
             <!-- Tab Pengembalian -->
             <div class="tab-pane fade" id="pengembalian" role="tabpanel">
-                <div class="card">
-                    <div class="card-header">
-                        <i class="fas fa-exchange-alt"></i> Proses Pengembalian Buku
+                <div class="card animate__animated animate__fadeIn">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-exchange-alt"></i> Proses Pengembalian Buku
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-primary" id="btnRefreshPengembalian">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="search-box">
@@ -558,7 +665,14 @@
                                     </tr>
                                 </thead>
                                 <tbody id="pengembalianBody">
-                                    <!-- Data akan diisi oleh JavaScript -->
+                                    <tr>
+                                        <td colspan="7" class="text-center py-4">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            <p class="mt-2">Memuat data peminjaman...</p>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -569,16 +683,18 @@
                 <div class="invoice" id="invoiceSection" style="display: none;">
                     <div class="invoice-header">
                         <div class="invoice-logo">
-                            <i class="fas fa-book-open"></i>
+                            <i class="fas fa-book-open fa-3x"></i>
                             <div>
                                 <h1 class="invoice-title">Perpustakaan XYZ</h1>
                                 <p>Jl. Perpustakaan No. 123, Kota</p>
+                                <p>Telp: (021) 12345678 | Email: perpus@xyz.com</p>
                             </div>
                         </div>
                         <div class="invoice-meta">
                             <h5>INVOICE DENDA</h5>
                             <p><strong>No. Invoice:</strong> <span id="invoiceNumber">INV-2023-001</span></p>
                             <p><strong>Tanggal:</strong> <span id="invoiceDate">01 Jan 2023</span></p>
+                            <p><strong>Status:</strong> <span class="badge bg-success">LUNAS</span></p>
                         </div>
                     </div>
                     
@@ -694,6 +810,11 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="alert alert-info mt-4">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Catatan:</strong> Pembayaran denda harus dilakukan maksimal 7 hari setelah pengembalian buku.
+                        </div>
                     </div>
                     
                     <div class="invoice-footer">
@@ -707,6 +828,9 @@
                             <button class="btn btn-outline-primary" id="btnCloseInvoice">
                                 <i class="fas fa-times"></i> Tutup
                             </button>
+                            <button class="btn btn-success" id="btnConfirmPayment">
+                                <i class="fas fa-check-circle"></i> Konfirmasi Pembayaran
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -714,9 +838,19 @@
             
             <!-- Tab Riwayat -->
             <div class="tab-pane fade" id="riwayat" role="tabpanel">
-                <div class="card">
-                    <div class="card-header">
-                        <i class="fas fa-history"></i> Riwayat Peminjaman
+                <div class="card animate__animated animate__fadeIn">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-history"></i> Riwayat Peminjaman
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-primary" id="btnExportRiwayat">
+                                <i class="fas fa-file-export"></i> Export
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary" id="btnRefreshRiwayat">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row mb-3">
@@ -760,7 +894,14 @@
                                     </tr>
                                 </thead>
                                 <tbody id="riwayatBody">
-                                    <!-- Data akan diisi oleh JavaScript -->
+                                    <tr>
+                                        <td colspan="10" class="text-center py-4">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            <p class="mt-2">Memuat data riwayat...</p>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -786,9 +927,16 @@
             
             <!-- Tab Laporan -->
             <div class="tab-pane fade" id="laporan" role="tabpanel">
-                <div class="card">
-                    <div class="card-header">
-                        <i class="fas fa-chart-pie"></i> Laporan Peminjaman
+                <div class="card animate__animated animate__fadeIn">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-chart-pie"></i> Laporan Peminjaman
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-primary" id="btnRefreshLaporan">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row mb-3">
@@ -932,11 +1080,31 @@
         </div>
     </div>
     
+    <!-- Modal Konfirmasi -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalTitle">Konfirmasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="confirmModalBody">
+                    Apakah Anda yakin ingin melanjutkan?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" id="confirmModalButton">Ya, Lanjutkan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Toast Notifikasi -->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <strong class="me-auto" id="toastTitle">Notification</strong>
+                <small id="toastTime">Baru saja</small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body" id="toastMessage">
@@ -945,12 +1113,22 @@
         </div>
     </div>
 
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="position-fixed top-0 left-0 w-100 h-100 d-flex justify-content-center align-items-center" style="background-color: rgba(0,0,0,0.5); z-index: 1200; display: none;">
+        <div class="text-center">
+            <div class="spinner-border text-light" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-white mt-3" id="loadingText">Memproses data...</p>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // ====================== KONSTANTA DAN VARIABEL GLOBAL ======================
         const DENDA_PER_HARI = 5000; // Rp5.000 per hari
-        const peminjamanList = JSON.parse(localStorage.getItem('peminjamanBuku')) || [];
+        let peminjamanList = JSON.parse(localStorage.getItem('peminjamanBuku')) || [];
         let currentInvoice = null;
         let currentPage = 1;
         const itemsPerPage = 10;
@@ -960,6 +1138,7 @@
         const toastEl = document.getElementById('liveToast');
         const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
         const pengembalianModal = new bootstrap.Modal(document.getElementById('pengembalianModal'));
+        const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
 
         // ====================== INISIALISASI ======================
         document.addEventListener('DOMContentLoaded', function() {
@@ -970,7 +1149,11 @@
             document.getElementById('filterDari').value = getFirstDayOfMonth();
             document.getElementById('filterSampai').value = today;
             document.getElementById('reportDate').value = getCurrentWeek();
-
+            
+            // Hitung jatuh tempo saat lama pinjam berubah
+            document.getElementById('lamaPinjam').addEventListener('change', hitungJatuhTempo);
+            document.getElementById('tanggalPinjam').addEventListener('change', hitungJatuhTempo);
+            
             // Load data awal
             updateTabelPengembalian();
             updateTabelRiwayat();
@@ -978,6 +1161,9 @@
 
             // Event listeners
             setupEventListeners();
+            
+            // Tampilkan notifikasi selamat datang
+            showAlert('info', 'Selamat datang di Sistem Peminjaman Buku Perpustakaan');
         });
 
         // ====================== FUNGSI UTAMA ======================
@@ -991,86 +1177,109 @@
             document.getElementById('btnCloseInvoice').addEventListener('click', closeInvoice);
             document.getElementById('modalTanggalKembali').addEventListener('change', previewDenda);
             document.getElementById('btnProsesPengembalian').addEventListener('click', prosesPengembalian);
+            document.getElementById('btnRefreshPengembalian').addEventListener('click', updateTabelPengembalian);
+            document.getElementById('btnConfirmPayment').addEventListener('click', confirmPayment);
 
             // Riwayat peminjaman
             document.getElementById('searchRiwayat').addEventListener('input', searchRiwayat);
             document.getElementById('btnFilter').addEventListener('click', updateTabelRiwayat);
             document.getElementById('btnPrev').addEventListener('click', prevPage);
             document.getElementById('btnNext').addEventListener('click', nextPage);
+            document.getElementById('btnExportRiwayat').addEventListener('click', exportRiwayat);
+            document.getElementById('btnRefreshRiwayat').addEventListener('click', refreshRiwayat);
 
             // Laporan
             document.getElementById('reportType').addEventListener('change', updateReportControls);
             document.getElementById('btnGenerateReport').addEventListener('click', generateReport);
             document.getElementById('btnExportReport').addEventListener('click', exportReport);
+            document.getElementById('btnRefreshLaporan').addEventListener('click', refreshLaporan);
+        }
+
+        function hitungJatuhTempo() {
+            const tglPinjam = document.getElementById('tanggalPinjam').value;
+            const lamaPinjam = parseInt(document.getElementById('lamaPinjam').value);
+            
+            if (tglPinjam && lamaPinjam) {
+                const tglPinjamObj = new Date(tglPinjam);
+                const tglTempo = new Date(tglPinjamObj);
+                tglTempo.setDate(tglPinjamObj.getDate() + (lamaPinjam * 7));
+                
+                document.getElementById('jatuhTempo').value = formatDate(tglTempo.toISOString().split('T')[0]);
+            }
         }
 
         // ====================== FUNGSI PEMINJAMAN ======================
         function simpanPeminjaman() {
-            // Ambil nilai dari form
-            const nama = document.getElementById('namaPeminjam').value.trim();
-            const noHp = document.getElementById('noHp').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const judul = document.getElementById('judulBuku').value.trim();
-            const kodeBuku = document.getElementById('kodeBuku').value.trim();
-            const tglPinjam = document.getElementById('tanggalPinjam').value;
-            const lama = parseInt(document.getElementById('lamaPinjam').value);
-
-            // Validasi input
-            if (!nama || !noHp || !judul || !kodeBuku || !tglPinjam || !lama) {
-                showAlert('error', 'Harap isi semua field yang wajib!');
+            // Validasi form
+            const form = document.getElementById('formPeminjaman');
+            if (!form.checkValidity()) {
+                form.classList.add('was-validated');
+                showAlert('error', 'Harap isi semua field yang wajib dengan data yang valid!');
                 return;
             }
-
-            // Validasi nomor HP
-            if (!/^[0-9]{10,13}$/.test(noHp)) {
-                showAlert('error', 'Nomor HP tidak valid!');
-                return;
-            }
-
-            // Validasi email jika diisi
-            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showAlert('error', 'Format email tidak valid!');
-                return;
-            }
-
-            // Hitung tanggal tempo
-            const tglPinjamObj = new Date(tglPinjam);
-            const tglTempo = new Date(tglPinjamObj);
-            tglTempo.setDate(tglPinjamObj.getDate() + (lama * 7));
-
-            // Buat objek peminjaman baru
-            const peminjaman = {
-                id: Date.now(),
-                nama: nama,
-                noHp: noHp,
-                email: email || null,
-                judul: judul,
-                kodeBuku: kodeBuku,
-                tglPinjam: tglPinjam,
-                tglTempo: tglTempo.toISOString().split('T')[0],
-                tglKembali: null,
-                denda: 0,
-                hariTelat: 0,
-                status: 'Dipinjam',
-                invoice: null,
-                createdAt: new Date().toISOString()
-            };
-
-            // Tambahkan ke array
-            peminjamanList.push(peminjaman);
             
-            // Simpan ke localStorage
-            saveToLocalStorage();
+            // Tampilkan loading
+            showLoading('Menyimpan data peminjaman...');
             
-            // Update tampilan
-            updateTabelPengembalian();
-            updateTabelRiwayat();
-            
-            // Reset form dan tampilkan notifikasi
-            document.getElementById('formPeminjaman').reset();
-            document.getElementById('tanggalPinjam').value = new Date().toISOString().split('T')[0];
-            
-            showAlert('success', 'Peminjaman berhasil disimpan!');
+            // Simulasikan proses async (dalam implementasi nyata bisa AJAX call)
+            setTimeout(() => {
+                // Ambil nilai dari form
+                const nama = document.getElementById('namaPeminjam').value.trim();
+                const noHp = document.getElementById('noHp').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const judul = document.getElementById('judulBuku').value.trim();
+                const kodeBuku = document.getElementById('kodeBuku').value.trim();
+                const tglPinjam = document.getElementById('tanggalPinjam').value;
+                const lama = parseInt(document.getElementById('lamaPinjam').value);
+
+                // Hitung tanggal tempo
+                const tglPinjamObj = new Date(tglPinjam);
+                const tglTempo = new Date(tglPinjamObj);
+                tglTempo.setDate(tglPinjamObj.getDate() + (lama * 7));
+
+                // Buat objek peminjaman baru
+                const peminjaman = {
+                    id: Date.now(),
+                    nama: nama,
+                    noHp: noHp,
+                    email: email || null,
+                    judul: judul,
+                    kodeBuku: kodeBuku,
+                    tglPinjam: tglPinjam,
+                    tglTempo: tglTempo.toISOString().split('T')[0],
+                    tglKembali: null,
+                    denda: 0,
+                    hariTelat: 0,
+                    status: 'Dipinjam',
+                    invoice: null,
+                    createdAt: new Date().toISOString()
+                };
+
+                // Tambahkan ke array
+                peminjamanList.push(peminjaman);
+                
+                // Simpan ke localStorage
+                saveToLocalStorage();
+                
+                // Update tampilan
+                updateTabelPengembalian();
+                updateTabelRiwayat();
+                
+                // Reset form dan tampilkan notifikasi
+                form.reset();
+                form.classList.remove('was-validated');
+                document.getElementById('tanggalPinjam').value = new Date().toISOString().split('T')[0];
+                document.getElementById('jatuhTempo').value = '';
+                
+                // Sembunyikan loading
+                hideLoading();
+                
+                showAlert('success', 'Peminjaman berhasil disimpan!');
+                
+                // Scroll ke tabel pengembalian
+                document.getElementById('pengembalian-tab').click();
+                document.getElementById('pengembalian').scrollIntoView({ behavior: 'smooth' });
+            }, 1000);
         }
 
         // ====================== FUNGSI PENGEMBALIAN ======================
@@ -1082,7 +1291,14 @@
             const activePeminjaman = peminjamanList.filter(p => !p.tglKembali);
             
             if (activePeminjaman.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-3">Tidak ada data peminjaman aktif</td></tr>`;
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center py-4">
+                            <i class="fas fa-book-open fa-2x mb-3 text-muted"></i>
+                            <p>Tidak ada data peminjaman aktif</p>
+                        </td>
+                    </tr>
+                `;
                 return;
             }
 
@@ -1092,6 +1308,7 @@
             // Isi tabel
             activePeminjaman.forEach((peminjaman, index) => {
                 const row = document.createElement('tr');
+                row.className = 'animate__animated animate__fadeIn';
                 
                 // Cek status keterlambatan
                 const today = new Date();
@@ -1104,7 +1321,7 @@
                     <td>${peminjaman.judul}</td>
                     <td>${peminjaman.kodeBuku}</td>
                     <td>${formatDate(peminjaman.tglPinjam)}</td>
-                    <td class="${isLate ? 'text-danger' : ''}">
+                    <td class="${isLate ? 'text-danger fw-bold' : ''}">
                         ${formatDate(peminjaman.tglTempo)}
                         ${isLate ? '<i class="fas fa-exclamation-circle"></i>' : ''}
                     </td>
@@ -1127,6 +1344,10 @@
             
             // Isi konten modal
             modalContent.innerHTML = `
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Silahkan masukkan tanggal pengembalian buku untuk menghitung denda.
+                </div>
                 <div class="row mb-3">
                     <div class="col">
                         <p class="mb-1"><strong>Nama:</strong> ${peminjaman.nama}</p>
@@ -1247,6 +1468,37 @@
             }
         }
 
+        function confirmPayment() {
+            if (!currentInvoice) return;
+            
+            // Tampilkan modal konfirmasi
+            document.getElementById('confirmModalTitle').textContent = 'Konfirmasi Pembayaran';
+            document.getElementById('confirmModalBody').innerHTML = `
+                <p>Apakah Anda yakin ingin mengkonfirmasi pembayaran untuk invoice <strong>${currentInvoice.invoice}</strong>?</p>
+                <p>Total pembayaran: <strong class="text-danger">${formatCurrency(currentInvoice.denda)}</strong></p>
+            `;
+            
+            // Setel fungsi untuk tombol konfirmasi
+            const confirmBtn = document.getElementById('confirmModalButton');
+            confirmBtn.onclick = function() {
+                // Update status pembayaran
+                const peminjaman = peminjamanList.find(p => p.id === currentInvoice.id);
+                if (peminjaman) {
+                    peminjaman.status = 'Lunas';
+                    saveToLocalStorage();
+                    updateTabelRiwayat();
+                    
+                    // Tutup modal dan invoice
+                    confirmModal.hide();
+                    closeInvoice();
+                    
+                    showAlert('success', 'Pembayaran berhasil dikonfirmasi!');
+                }
+            };
+            
+            confirmModal.show();
+        }
+
         function showInvoice(peminjaman) {
             currentInvoice = peminjaman;
             
@@ -1287,6 +1539,14 @@
             
             // Total denda
             document.getElementById('invoiceTotal').textContent = formatCurrency(peminjaman.denda);
+            
+            // Tampilkan/sembunyikan tombol konfirmasi pembayaran
+            const confirmBtn = document.getElementById('btnConfirmPayment');
+            if (peminjaman.status === 'Dikembalikan' && peminjaman.denda > 0) {
+                confirmBtn.style.display = 'block';
+            } else {
+                confirmBtn.style.display = 'none';
+            }
             
             // Tampilkan invoice section
             document.getElementById('invoiceSection').style.display = 'block';
@@ -1376,7 +1636,14 @@
             document.getElementById('totalDenda').textContent = formatCurrency(totalDenda);
             
             if (totalData === 0) {
-                tbody.innerHTML = `<tr><td colspan="10" class="text-center py-3">Tidak ada data yang ditemukan</td></tr>`;
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10" class="text-center py-4">
+                            <i class="fas fa-book-open fa-2x mb-3 text-muted"></i>
+                            <p>Tidak ada data yang ditemukan</p>
+                        </td>
+                    </tr>
+                `;
                 updatePaginationControls(0);
                 return;
             }
@@ -1394,6 +1661,7 @@
             // Isi tabel
             paginatedData.forEach((peminjaman, index) => {
                 const row = document.createElement('tr');
+                row.className = 'animate__animated animate__fadeIn';
                 const noUrut = startIndex + index + 1;
                 
                 row.innerHTML = `
@@ -1411,7 +1679,7 @@
                         ${peminjaman.denda > 0 ? formatCurrency(peminjaman.denda) : '-'}
                     </td>
                     <td>
-                        <span class="status-badge ${peminjaman.status === 'Dipinjam' ? 'badge-warning' : 'badge-success'}">
+                        <span class="status-badge ${getStatusBadgeClass(peminjaman.status)}">
                             ${peminjaman.status}
                         </span>
                     </td>
@@ -1421,9 +1689,37 @@
             });
         }
 
+        function getStatusBadgeClass(status) {
+            switch (status) {
+                case 'Dipinjam': return 'badge-warning';
+                case 'Dikembalikan': return 'badge-primary';
+                case 'Lunas': return 'badge-success';
+                default: return 'badge-secondary';
+            }
+        }
+
         function searchRiwayat() {
             currentPage = 1;
             updateTabelRiwayat();
+        }
+
+        function refreshRiwayat() {
+            currentPage = 1;
+            document.getElementById('searchRiwayat').value = '';
+            document.getElementById('filterDari').value = getFirstDayOfMonth();
+            document.getElementById('filterSampai').value = new Date().toISOString().split('T')[0];
+            updateTabelRiwayat();
+            showAlert('success', 'Data riwayat telah diperbarui');
+        }
+
+        function exportRiwayat() {
+            showLoading('Mempersiapkan data untuk diexport...');
+            
+            // Simulasikan proses export
+            setTimeout(() => {
+                hideLoading();
+                showAlert('success', 'Data riwayat berhasil diexport (simulasi)');
+            }, 1500);
         }
 
         function prevPage() {
@@ -1510,7 +1806,7 @@
                     break;
                     
                 case 'tahunan':
-                    const year = parseInt(reportDate);
+                    const selectedYear = parseInt(reportDate);
                     startDate = new Date(year, 0, 1);
                     endDate = new Date(year, 11, 31);
                     break;
@@ -1537,6 +1833,14 @@
             // Siapkan data untuk chart dan tabel
             prepareChartData(filteredData, reportType, startDate, endDate);
             prepareReportTable(filteredData, reportType);
+            
+            showAlert('success', `Laporan ${reportType} berhasil digenerate`);
+        }
+
+        function refreshLaporan() {
+            document.getElementById('reportType').value = 'mingguan';
+            document.getElementById('reportDate').value = getCurrentWeek();
+            generateReport();
         }
 
         function prepareChartData(data, reportType, startDate, endDate) {
@@ -1744,6 +2048,7 @@
             // Isi tabel
             sortedKeys.forEach((key, index) => {
                 const row = document.createElement('tr');
+                row.className = 'animate__animated animate__fadeIn';
                 const item = groupedData[key];
                 
                 row.innerHTML = `
@@ -1760,9 +2065,13 @@
         }
 
         function exportReport() {
-            // Dalam implementasi nyata, ini akan meng-generate PDF
-            // Di sini kita hanya simulasi dengan window.print()
-            window.print();
+            showLoading('Mempersiapkan laporan untuk diexport...');
+            
+            // Simulasikan proses export
+            setTimeout(() => {
+                hideLoading();
+                showAlert('success', 'Laporan berhasil diexport (simulasi)');
+            }, 1500);
         }
 
         // ====================== FUNGSI UTILITAS ======================
@@ -1789,6 +2098,7 @@
         function showAlert(type, message) {
             const toastTitle = document.getElementById('toastTitle');
             const toastMessage = document.getElementById('toastMessage');
+            const toastTime = document.getElementById('toastTime');
             
             // Set warna berdasarkan jenis alert
             let bgColor = '';
@@ -1805,20 +2115,37 @@
                     bgColor = 'bg-warning';
                     toastTitle.textContent = 'Peringatan';
                     break;
+                case 'info':
+                    bgColor = 'bg-info';
+                    toastTitle.textContent = 'Informasi';
+                    break;
                 default:
                     bgColor = 'bg-primary';
-                    toastTitle.textContent = 'Info';
+                    toastTitle.textContent = 'Notifikasi';
             }
             
             // Update toast classes
             const toastHeader = toastEl.querySelector('.toast-header');
             toastHeader.className = 'toast-header ' + bgColor + ' text-white';
             
+            // Set waktu
+            const now = new Date();
+            toastTime.textContent = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            
             // Set pesan
             toastMessage.textContent = message;
             
             // Tampilkan toast
             toast.show();
+        }
+
+        function showLoading(text = 'Memproses...') {
+            document.getElementById('loadingText').textContent = text;
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
         }
 
         function getFirstDayOfMonth() {
