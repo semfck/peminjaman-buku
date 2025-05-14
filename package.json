@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "chart.js": "^4.4.9",
+    "daisyui": "^5.0.35",
+    "tailwindcss": "^4.1.6"
+  }
+}
