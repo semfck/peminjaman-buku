@@ -35,6 +35,29 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ====================== FUNGSI FIRESTORE ======================
+async function simpanPeminjaman(data) {
+  const { error } = await supabase
+    .from('peminjaman')
+    .insert([data]);
+
+  if (error) {
+    console.error('Gagal menyimpan:', error.message);
+  } else {
+    alert('Data berhasil disimpan!');
+  }
+}
+
+// Contoh pemakaian:
+simpanPeminjaman({
+  nama: "Andi",
+  no_hp: "081234567890",
+  judul_buku: "Laskar Pelangi",
+  tanggal_pinjam: "2025-05-15",
+  lama_pinjam: 7,
+  tanggal_kembali: "2025-05-22",
+  denda: 0
+});
+
 async function loadPeminjaman() {
   showLoading('Memuat data peminjaman...');
   
@@ -105,6 +128,23 @@ async function loadRiwayat() {
 }
 
 // ====================== FUNGSI PEMINJAMAN ======================
+async function tampilkanPeminjaman() {
+  const { data, error } = await supabase
+    .from('peminjaman')
+    .select('*')
+    .order('tanggal_pinjam', { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  data.forEach(item => {
+    console.log(item.nama, item.judul_buku, item.tanggal_kembali);
+    // Tambahkan logika untuk menampilkan di tabel HTML
+  });
+}
+
 async function simpanPeminjaman() {
   const form = document.getElementById('formPeminjaman');
   if (!form.checkValidity()) {
@@ -292,3 +332,7 @@ function showAlert(type, message) {
 }
 
 // Fungsi lainnya tetap sama seperti sebelumnya...
+
+const supabaseUrl = 'https://supabase.com/dashboard/project/xqnlchcbxekwulncjvfy';
+const supabaseKey = 'sbp_4798bd4469989abd477bbaad6bcd4da51a235b1a';
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
