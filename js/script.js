@@ -275,6 +275,20 @@ function showAlert(type, message) {
   }, 3000);
 }
 
+// Fungsi loadPeminjaman yang diperbaiki
+async function loadPeminjaman() {
+  const { data, error } = await supabase
+    .from('peminjaman')
+    .select('*')
+    .is('tanggal_kembali', null)
+    .order('tanggal_pinjam', { ascending: true });
+  
+  if (!error) {
+    peminjamanList = data;
+    updateTabelPengembalian();
+  }
+}
+
 // Initialize event listeners
 function setupEventListeners() {
   document.getElementById('lamaPinjam').addEventListener('change', hitungJatuhTempo);

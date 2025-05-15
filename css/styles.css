@@ -504,3 +504,17 @@ body {
     border-radius: 0;
   }
 }
+
+/* Tambahkan di style.css */
+.form-control {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+}
